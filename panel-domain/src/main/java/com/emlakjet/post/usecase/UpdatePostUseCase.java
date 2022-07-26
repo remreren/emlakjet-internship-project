@@ -8,7 +8,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 
-@Builder
+@Builder(toBuilder = true)
 public record UpdatePostUseCase(
         Long postId,
         Long ownerId,

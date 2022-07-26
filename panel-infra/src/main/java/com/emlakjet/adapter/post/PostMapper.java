@@ -3,6 +3,7 @@ package com.emlakjet.adapter.post;
 import com.emlakjet.adapter.post.entity.IndoorInfoEntity;
 import com.emlakjet.adapter.post.entity.LocationPointEntity;
 import com.emlakjet.adapter.post.entity.PostEntity;
+import com.emlakjet.adapter.post.rest.dto.PostRequest;
 import com.emlakjet.post.model.IndoorInfo;
 import com.emlakjet.post.model.LocationPoint;
 import com.emlakjet.post.model.Post;
@@ -28,4 +29,8 @@ public interface PostMapper {
     IndoorInfo toIndoorInfo(IndoorInfoEntity indoorInfo);
 
     IndoorInfoEntity toIndoorInfoEntity(IndoorInfo indoorInfo);
+
+    UpdatePostUseCase toUpdatePostUseCase(PostRequest post);
+
+    CreatePostUseCase toCreatePostUseCase(PostRequest post);
 }

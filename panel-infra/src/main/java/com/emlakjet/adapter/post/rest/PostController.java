@@ -1,5 +1,6 @@
 package com.emlakjet.adapter.post.rest;
 
+import com.emlakjet.adapter.post.PostMapper;
 import com.emlakjet.adapter.post.rest.dto.PostRequest;
 import com.emlakjet.post.dto.PostResponse;
 import com.emlakjet.commons.usecase.UseCaseHandler;
@@ -19,10 +20,12 @@ public class PostController {
 
     private final UseCaseHandler<Post, UpdatePostUseCase> updatePostUseCaseHandler;
 
+    private final PostMapper mapper;
+
     @PutMapping("/")
     public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest post) {
 
-        var createdResponse = createPostUseCaseHandler.handle(post.toUseCase());
+        var createdResponse = createPostUseCaseHandler.handle(mapper.toCreatePostUseCase(post));
 
         return ResponseEntity.ok(PostResponse.from(createdResponse));
 
@@ -31,7 +34,12 @@ public class PostController {
     @PostMapping("/{postId}")
     public ResponseEntity<PostResponse> updatePost(@RequestBody PostRequest post, @PathVariable("postId") Long postId) {
 
-        var updateResponse = updatePostUseCaseHandler.handle(post.toUseCase(postId));
+        var updatePostUseCase = mapper.toUpdatePostUseCase(post)
+                .toBuilder()
+                .postId(postId)
+                .build();
+
+        var updateResponse = updatePostUseCaseHandler.handle(updatePostUseCase);
 
         return ResponseEntity.ok(PostResponse.from(updateResponse));
 
