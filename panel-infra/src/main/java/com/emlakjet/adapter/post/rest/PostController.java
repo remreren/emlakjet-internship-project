@@ -25,9 +25,9 @@ public class PostController {
     @PutMapping("/")
     public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest post) {
 
-        var createdResponse = createPostUseCaseHandler.handle(mapper.toCreatePostUseCase(post));
+        var createdPost = createPostUseCaseHandler.handle(mapper.toCreatePostUseCase(post));
 
-        return ResponseEntity.ok(PostResponse.from(createdResponse));
+        return ResponseEntity.ok(mapper.toPostResponse(createdPost));
 
     }
 
@@ -39,9 +39,9 @@ public class PostController {
                 .postId(postId)
                 .build();
 
-        var updateResponse = updatePostUseCaseHandler.handle(updatePostUseCase);
+        var updatedPost = updatePostUseCaseHandler.handle(updatePostUseCase);
 
-        return ResponseEntity.ok(PostResponse.from(updateResponse));
+        return ResponseEntity.ok(mapper.toPostResponse(updatedPost));
 
     }
 }

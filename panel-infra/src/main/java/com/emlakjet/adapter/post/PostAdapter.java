@@ -21,7 +21,7 @@ public class PostAdapter implements PostPort {
 
         var createdPost = postRepository.save(mapper.toPostEntity(post));
 
-        return createdPost.toPost();
+        return mapper.toPost(createdPost);
     }
 
     @Override
@@ -29,6 +29,6 @@ public class PostAdapter implements PostPort {
 
         var createdPost = postRepository.save(mapper.toPostEntity(post));
 
-        return createdPost.toPost();
+        return mapper.toPost(createdPost);
     }
 }
