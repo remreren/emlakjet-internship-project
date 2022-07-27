@@ -20,9 +20,13 @@ public class PostApprovalAdapter implements PostApprovalPort {
     @Override
     public Post updateApprovalStatus(PostApprovalUseCase useCase) {
 
-        var postEntity = postRepository.updateApprovalStatus(useCase.postId(), useCase.approvalStatus());
+        var postFound = postRepository.findById(useCase.postId())
+                .map(post -> post.toBuilder()
+                        .approvalStatus(useCase.approvalStatus())
+                        .build())
+                .orElseThrow(PostNotFoundException::new);
 
-        return postEntity.map(mapper::toPost).orElseThrow(PostNotFoundException::new);
+        return mapper.toPost(postRepository.save(postFound));
 
     }
 }
