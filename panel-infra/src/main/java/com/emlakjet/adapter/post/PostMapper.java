@@ -33,6 +33,8 @@ public interface PostMapper {
 
     UpdatePostUseCase toUpdatePostUseCase(PostRequest post);
 
+    UpdatePostUseCase toUpdatePostUseCase(PostEntity post);
+
     CreatePostUseCase toCreatePostUseCase(PostRequest post);
 
     PostResponse toPostResponse(Post post);

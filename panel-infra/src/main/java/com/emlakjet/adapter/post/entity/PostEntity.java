@@ -1,5 +1,6 @@
 package com.emlakjet.adapter.post.entity;
 
+import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.post.enums.TradeType;
 import com.emlakjet.post.model.IndoorInfo;
 import com.emlakjet.post.model.LocationPoint;
@@ -17,7 +18,7 @@ import static java.util.Objects.isNull;
 @Setter
 @Getter
 @Builder
-@Entity
+@Entity(name = "post")
 @Table(name = "post")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,34 +42,12 @@ public class PostEntity {
 
     private IndoorInfoEntity indoorInfo;
 
+    private ApprovalStatus approvalStatus;
+
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Post toPost() {
-
-        var locationPoint = isNull(getLocation()) ? null : new LocationPoint(
-                location.lat(),
-                location.lng());
-
-        var indoor = isNull(getIndoorInfo()) ? null : new IndoorInfo(
-                indoorInfo.squareMeter(),
-                indoorInfo.netSquareMeter(),
-                indoorInfo.roomCount(),
-                indoorInfo.floorCount(),
-                indoorInfo.floorNumber());
-
-        return new Post(
-                postId,
-                title,
-                description,
-                price,
-                locationPoint,
-                tradeType,
-                indoor,
-                createdAt,
-                updatedAt);
-    }
 }
