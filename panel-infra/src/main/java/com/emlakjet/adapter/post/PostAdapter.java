@@ -31,4 +31,11 @@ public class PostAdapter implements PostPort {
 
         return mapper.toPost(createdPost);
     }
+
+    @Override
+    public void deletePost(Long postId) {
+
+        postRepository.deleteById(postId);
+
+    }
 }

@@ -2,6 +2,7 @@ package com.emlakjet.adapter.post.rest;
 
 import com.emlakjet.adapter.post.PostMapper;
 import com.emlakjet.adapter.post.rest.dto.PostRequest;
+import com.emlakjet.commons.usecase.VoidUseCaseHandler;
 import com.emlakjet.post.dto.PostResponse;
 import com.emlakjet.commons.usecase.UseCaseHandler;
 import com.emlakjet.post.model.Post;
@@ -19,6 +20,8 @@ public class PostController {
     private final UseCaseHandler<Post, CreatePostUseCase> createPostUseCaseHandler;
 
     private final UseCaseHandler<Post, UpdatePostUseCase> updatePostUseCaseHandler;
+
+    private final VoidUseCaseHandler<Long> deletePostUseCaseHandler;
 
     private final PostMapper mapper;
 
@@ -43,5 +46,13 @@ public class PostController {
 
         return ResponseEntity.ok(mapper.toPostResponse(updatedPost));
 
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Boolean> deletePost(@PathVariable("postId") Long postId) {
+
+        deletePostUseCaseHandler.handle(postId);
+
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 }

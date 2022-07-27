@@ -9,4 +9,6 @@ public interface PostPort {
     Post createPost(CreatePostUseCase post);
 
     Post updatePost(UpdatePostUseCase post);
+
+    void deletePost(Long postId);
 }

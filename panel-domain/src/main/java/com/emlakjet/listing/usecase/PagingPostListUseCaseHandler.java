@@ -12,16 +12,20 @@ import static java.util.Objects.isNull;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class PostListingUseCaseHandler implements UseCaseHandler<List<Post>, Integer> {
+public class PagingPostListUseCaseHandler implements UseCaseHandler<List<Post>, PagingUseCase> {
 
-    private static final Integer DEFAULT_SIZE = 30;
+    private static final Integer DEFAULT_PAGE_SIZE = 30;
+
+    private static final Integer DEFAULT_PAGE = 0;
 
     private final PostListingPort postListingPort;
 
     @Override
-    public List<Post> handle(Integer useCase) {
+    public List<Post> handle(PagingUseCase useCase) {
 
-        return postListingPort.getLastNPost(isNull(useCase) ? DEFAULT_SIZE : useCase);
+        var page = isNull(useCase.page()) ? DEFAULT_PAGE : useCase.page();
+
+        return postListingPort.getPostsPaging(useCase.toBuilder().page(page).build());
 
     }
 }
