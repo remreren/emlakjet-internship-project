@@ -118,7 +118,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>post-test</id>
+                        <id>advert-test</id>
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
