@@ -2,7 +2,6 @@ package com.emlakjet.advert.port;
 
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
-import com.emlakjet.advert.usecase.UpdateAdvertStatusUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 
 import java.util.Optional;
@@ -14,8 +13,6 @@ public interface AdvertPort {
     Advert updateAdvert(UpdateAdvertUseCase advert);
 
     void deleteAdvert(Long advertId);
-
-    Advert updateAdvertStatus(UpdateAdvertStatusUseCase advert);
 
     Optional<Advert> getAdvertById(Long advertId);
 }

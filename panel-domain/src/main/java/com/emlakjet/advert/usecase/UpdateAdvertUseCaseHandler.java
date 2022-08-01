@@ -1,8 +1,8 @@
 package com.emlakjet.advert.usecase;
 
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
-import com.emlakjet.advert.exception.AdvertStatusException;
+import com.emlakjet.publishing.exception.AdvertStatusException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.commons.DomainComponent;

@@ -1,4 +1,4 @@
-package com.emlakjet.advert.enums;
+package com.emlakjet.publishing.enums;
 
 public enum AdvertStatus {
     PUBLISHED,

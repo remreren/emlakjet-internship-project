@@ -1,6 +1,6 @@
 package com.emlakjet.adapter.advert.entity;
 
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import lombok.*;

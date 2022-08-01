@@ -2,7 +2,7 @@ package com.emlakjet.adapter.approval;
 
 import com.emlakjet.adapter.advert.AdvertMapper;
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.approval.port.AdvertApprovalPort;

@@ -1,4 +1,4 @@
-package com.emlakjet.advert.exception;
+package com.emlakjet.publishing.exception;
 
 public class AdvertStatusException extends RuntimeException {
 

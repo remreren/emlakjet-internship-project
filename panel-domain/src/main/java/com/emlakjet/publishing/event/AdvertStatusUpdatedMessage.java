@@ -1,6 +1,6 @@
-package com.emlakjet.advert.event;
+package com.emlakjet.publishing.event;
 
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 
 public record AdvertStatusUpdatedMessage(
         Long advertId,

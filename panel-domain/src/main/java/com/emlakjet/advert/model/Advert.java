@@ -1,6 +1,6 @@
 package com.emlakjet.advert.model;
 
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.approval.enums.ApprovalStatus;
 

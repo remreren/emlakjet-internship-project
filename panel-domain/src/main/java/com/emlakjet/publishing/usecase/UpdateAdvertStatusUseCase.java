@@ -1,6 +1,6 @@
-package com.emlakjet.advert.usecase;
+package com.emlakjet.publishing.usecase;
 
-import com.emlakjet.advert.enums.AdvertStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.commons.model.UseCase;
 
 public record UpdateAdvertStatusUseCase(

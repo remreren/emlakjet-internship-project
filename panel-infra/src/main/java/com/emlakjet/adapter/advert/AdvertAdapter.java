@@ -1,13 +1,13 @@
 package com.emlakjet.adapter.advert;
 
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
-import com.emlakjet.advert.enums.AdvertStatus;
-import com.emlakjet.advert.event.AdvertStatusUpdatedMessage;
+import com.emlakjet.publishing.enums.AdvertStatus;
+import com.emlakjet.publishing.event.AdvertStatusUpdatedMessage;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
-import com.emlakjet.advert.usecase.UpdateAdvertStatusUseCase;
+import com.emlakjet.publishing.usecase.UpdateAdvertStatusUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Slf4j
 @Component // TODO: Service kullanılmış diğer projelerde
 @RequiredArgsConstructor
-@Slf4j
 public class AdvertAdapter implements AdvertPort {
 
     private final KafkaTemplate<String, Object> advertEventSender;
@@ -29,8 +29,6 @@ public class AdvertAdapter implements AdvertPort {
     private static final String ADVERT_UPDATED = "advert-updated";
 
     private static final String ADVERT_DELETED = "advert-deleted";
-
-    private static final String ADVERT_STATUS_UPDATED = "advert-status-updated";
 
     private final AdvertRepository advertRepository;
 
@@ -69,21 +67,6 @@ public class AdvertAdapter implements AdvertPort {
         advertRepository.deleteById(advertId);
 
         advertEventSender.send(ADVERT_DELETED, mapper.toAdvertDeletedMessage(advertId));
-
-    }
-
-    @Override
-    public Advert updateAdvertStatus(UpdateAdvertStatusUseCase advert) {
-
-        var advertFound = advertRepository.findById(advert.advertId())
-                .map(adv -> adv.toBuilder().advertStatus(advert.status()).build())
-                .orElseThrow(AdvertNotFoundException::new);
-
-        var advertUpdated  = mapper.toAdvert(advertRepository.save(advertFound));
-
-        advertEventSender.send(ADVERT_STATUS_UPDATED, new AdvertStatusUpdatedMessage(advert.advertId(), advert.status()));
-
-        return advertUpdated;
 
     }
 
