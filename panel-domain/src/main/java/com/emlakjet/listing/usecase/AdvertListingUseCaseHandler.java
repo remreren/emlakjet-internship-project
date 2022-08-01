@@ -12,7 +12,7 @@ import static java.util.Objects.isNull;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class AdvertListingUseCaseHandler implements UseCaseHandler<List<Advert>, ListingUseCase> {
+public class AdvertListingUseCaseHandler implements UseCaseHandler<List<Advert>, AdvertListingUseCase> {
 
     private static final Integer DEFAULT_PAGE_SIZE = 30;
 
@@ -21,7 +21,7 @@ public class AdvertListingUseCaseHandler implements UseCaseHandler<List<Advert>,
     private final AdvertListingPort advertListingPort;
 
     @Override
-    public List<Advert> handle(ListingUseCase useCase) {
+    public List<Advert> handle(AdvertListingUseCase useCase) {
 
         var page = isNull(useCase.page()) ? DEFAULT_PAGE : useCase.page();
 

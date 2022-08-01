@@ -4,7 +4,7 @@ import com.emlakjet.adapter.advert.AdvertMapper;
 import com.emlakjet.advert.dto.AdvertResponse;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.commons.usecase.UseCaseHandler;
-import com.emlakjet.listing.usecase.ListingUseCase;
+import com.emlakjet.listing.usecase.AdvertListingUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +12,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/advert/list")
+@RequestMapping("/v1/listing")
 public class AdvertListingController {
 
-    private final UseCaseHandler<List<Advert>, ListingUseCase> advertListingUsecaseHandler;
+    private final UseCaseHandler<List<Advert>, AdvertListingUseCase> advertListingUseCaseHandler;
 
     private final AdvertMapper mapper;
 
-    @GetMapping(value = {"", "/{page}"})
+    @GetMapping(value = {
+            "/",
+            "/{page:\\d+}",
+            "/{approvalSlug}",
+            "/{approvalSlug}/{page:\\d+}",
+            "/{approvalSlug}/{statusSlug:[a-zA-Z]*}",
+            "/{approvalSlug}/{statusSlug:[a-zA-Z]*}/{page:\\d+}",
+    })
     public List<AdvertResponse> getAdverts(
             @PathVariable(value = "page", required = false) Integer page,
+            @PathVariable(value = "approvalSlug", required = false) String approvalSlug,
+            @PathVariable(value = "statusSlug", required = false) String statusSlug,
             @RequestParam(value = "pageSize", required = false, defaultValue = "30") Integer pageSize) {
 
-        return advertListingUsecaseHandler.handle(new ListingUseCase(page, pageSize)).parallelStream().map(mapper::toAdvertResponse).toList();
+        var advertListingUsecase = AdvertListingUseCase.builder()
+                .approvalStatusSlug(approvalSlug)
+                .advertStatusSlug(statusSlug)
+                .page(page)
+                .pageSize(pageSize)
+                .build();
+        return advertListingUseCaseHandler.handle(advertListingUsecase).parallelStream().map(mapper::toAdvertResponse).toList();
 
     }
 }
