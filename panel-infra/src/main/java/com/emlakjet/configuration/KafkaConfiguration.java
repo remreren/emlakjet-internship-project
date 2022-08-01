@@ -2,7 +2,6 @@ package com.emlakjet.configuration;
 
 import lombok.Setter;
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -43,11 +42,6 @@ public class KafkaConfiguration {
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         return new KafkaAdmin(configs);
-    }
-
-    @Bean
-    public NewTopic advertEventsTopic() {
-        return new NewTopic("advert-events", 1, (short) 1);
     }
 
     public record KafkaProducerConfiguration(

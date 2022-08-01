@@ -15,7 +15,7 @@ public class CreateAdvertUseCaseHandler implements UseCaseHandler<Advert, Create
     @Override
     public Advert handle(CreateAdvertUseCase useCase) {
 
-        return advertPort.createPost(useCase);
+        return advertPort.createAdvert(useCase);
 
     }
 }

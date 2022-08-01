@@ -3,8 +3,10 @@ package com.emlakjet.adapter.advert.rest;
 import com.emlakjet.adapter.advert.AdvertMapper;
 import com.emlakjet.adapter.advert.rest.dto.AdvertRequest;
 import com.emlakjet.advert.dto.AdvertResponse;
+import com.emlakjet.advert.enums.AdvertStatus;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
+import com.emlakjet.advert.usecase.UpdateAdvertStatusUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.commons.usecase.UseCaseHandler;
 import com.emlakjet.commons.usecase.VoidUseCaseHandler;
@@ -21,6 +23,8 @@ public class AdvertController {
 
     private final UseCaseHandler<Advert, UpdateAdvertUseCase> updateAdvertUseCaseHandler;
 
+    private final UseCaseHandler<Advert, UpdateAdvertStatusUseCase> updateAdvertStatusUseCaseHandler;
+
     private final VoidUseCaseHandler<Long> deleteAdvertUseCaseHandler;
 
     private final AdvertMapper mapper;
@@ -34,7 +38,7 @@ public class AdvertController {
 
     }
 
-    @PostMapping("/{advertId}")
+    @PostMapping("/{advertId}/")
     public ResponseEntity<AdvertResponse> updateAdvert(@RequestBody AdvertRequest advert, @PathVariable("advertId") Long advertId) {
 
         var updatePostUseCase = mapper.toUpdateAdvertUseCase(advert)
@@ -48,11 +52,30 @@ public class AdvertController {
 
     }
 
-    @DeleteMapping("/{advertId}")
+    @DeleteMapping("/{advertId}/")
     public ResponseEntity<Boolean> deleteAdvert(@PathVariable("advertId") Long advertId) {
 
         deleteAdvertUseCaseHandler.handle(advertId);
 
         return ResponseEntity.ok(Boolean.TRUE);
+
+    }
+
+    @PostMapping("/{advertId}/publish/")
+    public ResponseEntity<AdvertResponse> publishAdvert(@PathVariable("advertId") Long advertId) {
+
+        var advert = updateAdvertStatusUseCaseHandler.handle(new UpdateAdvertStatusUseCase(advertId, AdvertStatus.PUBLISHED));
+
+        return ResponseEntity.ok(mapper.toAdvertResponse(advert));
+
+    }
+
+    @PostMapping("/{advertId}/unpublish/")
+    public ResponseEntity<AdvertResponse> unpublishAdvert(@PathVariable("advertId") Long advertId) {
+
+        var advert = updateAdvertStatusUseCaseHandler.handle(new UpdateAdvertStatusUseCase(advertId, AdvertStatus.NOT_PUBLISHED));
+
+        return ResponseEntity.ok(mapper.toAdvertResponse(advert));
+
     }
 }

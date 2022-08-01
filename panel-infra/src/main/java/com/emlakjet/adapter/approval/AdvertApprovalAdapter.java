@@ -2,6 +2,7 @@ package com.emlakjet.adapter.approval;
 
 import com.emlakjet.adapter.advert.AdvertMapper;
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
+import com.emlakjet.advert.enums.AdvertStatus;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.approval.port.AdvertApprovalPort;
@@ -23,6 +24,7 @@ public class AdvertApprovalAdapter implements AdvertApprovalPort {
         var advertFound = advertRepository.findById(useCase.advertId())
                 .map(advert -> advert.toBuilder()
                         .approvalStatus(useCase.approvalStatus())
+                        .advertStatus(AdvertStatus.PUBLISHED)
                         .build())
                 .orElseThrow(AdvertNotFoundException::new);
 

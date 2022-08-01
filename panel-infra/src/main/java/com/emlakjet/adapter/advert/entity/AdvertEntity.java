@@ -1,5 +1,6 @@
 package com.emlakjet.adapter.advert.entity;
 
+import com.emlakjet.advert.enums.AdvertStatus;
 import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import lombok.*;
@@ -38,6 +39,8 @@ public class AdvertEntity {
     private IndoorInfoEntity indoorInfo;
 
     private ApprovalStatus approvalStatus;
+
+    private AdvertStatus advertStatus;
 
     @CreationTimestamp
     private Date createdAt;

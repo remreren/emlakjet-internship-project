@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/advert/approval")
+@RequestMapping("/v1/approval/advert")
 public class AdvertApprovalController {
 
     private final UseCaseHandler<Advert, AdvertApprovalUseCase> advertApprovalUseCaseHandler;
 
     private final AdvertMapper mapper;
 
-    @PostMapping("/approve/{advertId}")
+    @PostMapping("/{advertId}/approve")
     public ResponseEntity<AdvertResponse> approveAdvert(@PathVariable("advertId") Long advertId) {
 
         var advert = advertApprovalUseCaseHandler.handle(new AdvertApprovalUseCase(advertId, ApprovalStatus.APPROVED));
@@ -31,7 +31,7 @@ public class AdvertApprovalController {
 
     }
 
-    @PostMapping("/reject/{advertId}")
+    @PostMapping("/{advertId}/reject")
     public ResponseEntity<AdvertResponse> rejectAdvert(@PathVariable("advertId") Long advertId) {
 
         var advert = advertApprovalUseCaseHandler.handle(new AdvertApprovalUseCase(advertId, ApprovalStatus.REJECTED));
