@@ -1,15 +1,13 @@
 package com.emlakjet.adapter.advert;
 
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
-import com.emlakjet.publishing.enums.AdvertStatus;
-import com.emlakjet.publishing.event.AdvertStatusUpdatedMessage;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
-import com.emlakjet.publishing.usecase.UpdateAdvertStatusUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.approval.enums.ApprovalStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

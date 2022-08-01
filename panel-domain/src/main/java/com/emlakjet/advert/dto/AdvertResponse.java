@@ -1,10 +1,10 @@
 package com.emlakjet.advert.dto;
 
-import com.emlakjet.publishing.enums.AdvertStatus;
 import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.advert.model.IndoorInfo;
 import com.emlakjet.advert.model.LocationPoint;
 import com.emlakjet.approval.enums.ApprovalStatus;
+import com.emlakjet.publishing.enums.AdvertStatus;
 import lombok.Builder;
 
 import java.math.BigDecimal;
