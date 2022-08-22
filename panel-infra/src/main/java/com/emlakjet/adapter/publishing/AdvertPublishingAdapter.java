@@ -2,6 +2,7 @@ package com.emlakjet.adapter.publishing;
 
 import com.emlakjet.adapter.advert.AdvertMapper;
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
+import com.emlakjet.advert.event.AdvertEventsAggregate;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.publishing.event.AdvertStatusUpdatedMessage;
@@ -17,9 +18,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AdvertPublishingAdapter implements AdvertPublishingPort {
 
-    private final KafkaTemplate<String, Object> advertEventSender;
+    private final KafkaTemplate<String, AdvertEventsAggregate> advertEventSender;
 
-    private static final String ADVERT_STATUS_UPDATED = "advert-status-updated";
+    private static final String ADVERT_STATUS_UPDATED = "advert-events";
 
     private final AdvertRepository advertRepository;
 

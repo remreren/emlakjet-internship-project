@@ -11,11 +11,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Setter
-@Getter
 @Builder(toBuilder = true)
 @Entity(name = "advert")
 @Table(name = "advert")
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdvertEntity {
@@ -32,10 +33,12 @@ public class AdvertEntity {
 
     private BigDecimal price;
 
+    @Embedded
     private LocationPointEntity location;
 
     private TradeType tradeType;
 
+    @Embedded
     private IndoorInfoEntity indoorInfo;
 
     private ApprovalStatus approvalStatus;

@@ -1,4 +1,10 @@
 package com.emlakjet.advert.event;
 
-public record AdvertDeletedMessage(Long advertId) {
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class AdvertDeletedMessage extends AdvertEventsAggregate {
+    private final Long advertId;
 }

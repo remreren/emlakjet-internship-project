@@ -1,6 +1,7 @@
 package com.emlakjet.adapter.advert;
 
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
+import com.emlakjet.advert.event.AdvertEventsAggregate;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
@@ -20,13 +21,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdvertAdapter implements AdvertPort {
 
-    private final KafkaTemplate<String, Object> advertEventSender;
+    private final KafkaTemplate<String, AdvertEventsAggregate> advertEventSender;
 
-    private static final String ADVERT_CREATED = "advert-created";
+    private static final String ADVERT_CREATED = "advert-events";
 
-    private static final String ADVERT_UPDATED = "advert-updated";
+    private static final String ADVERT_UPDATED = "advert-events";
 
-    private static final String ADVERT_DELETED = "advert-deleted";
+    private static final String ADVERT_DELETED = "advert-events";
 
     private final AdvertRepository advertRepository;
 

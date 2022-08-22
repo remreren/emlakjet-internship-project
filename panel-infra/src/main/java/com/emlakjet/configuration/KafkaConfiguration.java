@@ -1,5 +1,6 @@
 package com.emlakjet.configuration;
 
+import com.emlakjet.advert.event.AdvertEventsAggregate;
 import lombok.Setter;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -25,7 +26,7 @@ public class KafkaConfiguration {
     private KafkaProducerConfiguration producer;
 
     @Bean
-    public ProducerFactory<String, Object> advertEventProducerFactory() {
+    public ProducerFactory<String, AdvertEventsAggregate> advertEventProducerFactory() {
         Map<String, Object> producerConfig = Map.of(
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, producer.keySerializer(),
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, producer.valueSerializer(),
@@ -34,7 +35,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Object> advertEventKafkaTemplate() {
+    public KafkaTemplate<String, AdvertEventsAggregate> advertEventKafkaTemplate() {
         return new KafkaTemplate<>(advertEventProducerFactory());
     }
 

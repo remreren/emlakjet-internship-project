@@ -1,11 +1,15 @@
 package com.emlakjet.advert.event;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 
-public record AdvertCreatedMessage(
-        Long advertId,
-        String title,
-        String description,
-        BigDecimal price
-) {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class AdvertCreatedMessage extends AdvertEventsAggregate {
+    private final Long advertId;
+    private final String title;
+    private final String description;
+    private final BigDecimal price;
 }
