@@ -1,6 +1,6 @@
 package com.emlakjet.configuration;
 
-import com.emlakjet.advert.event.AdvertEventsAggregate;
+import com.emlakjet.advert.event.AdvertEvent;
 import lombok.Setter;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -26,16 +26,17 @@ public class KafkaConfiguration {
     private KafkaProducerConfiguration producer;
 
     @Bean
-    public ProducerFactory<String, AdvertEventsAggregate> advertEventProducerFactory() {
+    public ProducerFactory<String, AdvertEvent> advertEventProducerFactory() {
         Map<String, Object> producerConfig = Map.of(
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, producer.keySerializer(),
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, producer.valueSerializer(),
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
+                "schema.registry.url", "http://localhost:8081");
         return new DefaultKafkaProducerFactory<>(producerConfig);
     }
 
     @Bean
-    public KafkaTemplate<String, AdvertEventsAggregate> advertEventKafkaTemplate() {
+    public KafkaTemplate<String, AdvertEvent> advertEventKafkaTemplate() {
         return new KafkaTemplate<>(advertEventProducerFactory());
     }
 

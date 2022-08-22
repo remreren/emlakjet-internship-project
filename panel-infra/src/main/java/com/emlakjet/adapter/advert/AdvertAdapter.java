@@ -1,7 +1,7 @@
 package com.emlakjet.adapter.advert;
 
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
-import com.emlakjet.advert.event.AdvertEventsAggregate;
+import com.emlakjet.advert.event.AdvertEvent;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
@@ -15,13 +15,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component // TODO: Service kullanılmış diğer projelerde
 @RequiredArgsConstructor
 public class AdvertAdapter implements AdvertPort {
 
-    private final KafkaTemplate<String, AdvertEventsAggregate> advertEventSender;
+    private final KafkaTemplate<String, AdvertEvent> advertEventSender;
 
     private static final String ADVERT_CREATED = "advert-events";
 
@@ -43,7 +44,12 @@ public class AdvertAdapter implements AdvertPort {
                         .advertStatus(AdvertStatus.HANG)
                         .build());
 
-        advertEventSender.send(ADVERT_CREATED, mapper.toAdvertCreatedMessage(createdAdvert));
+        var advertEvent = AdvertEvent.newBuilder()
+                                     .setEventId(UUID.randomUUID().toString())
+                                     .setAdvertCreated(mapper.toAdvertCreatedMessage(createdAdvert))
+                                     .build();
+
+        advertEventSender.send(ADVERT_CREATED, advertEvent);
 
         return mapper.toAdvert(createdAdvert);
     }
@@ -55,7 +61,12 @@ public class AdvertAdapter implements AdvertPort {
                 .map(oldEntity -> mapper.toAdvertEntity(oldEntity, advert))
                 .orElseThrow(AdvertNotFoundException::new);
 
-        advertEventSender.send(ADVERT_UPDATED, mapper.toAdvertUpdatedMessage(updatedAdvert));
+        var advertEvent = AdvertEvent.newBuilder()
+                                     .setEventId(UUID.randomUUID().toString())
+                                     .setAdvertUpdated(mapper.toAdvertUpdatedMessage(updatedAdvert))
+                                     .build();
+
+        advertEventSender.send(ADVERT_UPDATED, advertEvent);
 
         return mapper.toAdvert(updatedAdvert);
     }
@@ -65,7 +76,12 @@ public class AdvertAdapter implements AdvertPort {
 
         advertRepository.deleteById(advertId);
 
-        advertEventSender.send(ADVERT_DELETED, mapper.toAdvertDeletedMessage(advertId));
+        var advertEvent = AdvertEvent.newBuilder()
+                                     .setEventId(UUID.randomUUID().toString())
+                                     .setAdvertDeleted(mapper.toAdvertDeletedMessage(advertId))
+                                     .build();
+
+        advertEventSender.send(ADVERT_DELETED, advertEvent);
 
     }
 

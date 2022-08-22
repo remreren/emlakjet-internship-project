@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package com.emlakjet.advert.event;
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "advert_created.proto";
+import "advert_updated.proto";
+import "advert_deleted.proto";
+import "advert_status_updated.proto";
+
+message AdvertEvent {
+  string event_id = 1;
+  google.protobuf.Timestamp create_date = 2;
+
+  oneof payload {
+    AdvertCreatedEvent advert_created = 3;
+    AdvertUpdatedEvent advert_updated = 4;
+    AdvertDeletedEvent advert_deleted = 5;
+    AdvertStatusUpdatedEvent advert_status_updated = 6;
+  }
+}

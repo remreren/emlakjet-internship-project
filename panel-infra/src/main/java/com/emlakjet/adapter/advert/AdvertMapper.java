@@ -5,14 +5,16 @@ import com.emlakjet.adapter.advert.entity.IndoorInfoEntity;
 import com.emlakjet.adapter.advert.entity.LocationPointEntity;
 import com.emlakjet.adapter.advert.rest.dto.AdvertRequest;
 import com.emlakjet.advert.dto.AdvertResponse;
-import com.emlakjet.advert.event.AdvertCreatedMessage;
-import com.emlakjet.advert.event.AdvertDeletedMessage;
-import com.emlakjet.advert.event.AdvertUpdatedMessage;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.model.IndoorInfo;
 import com.emlakjet.advert.model.LocationPoint;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
+import com.emlakjet.advert.event.AdvertCreatedEvent;
+import com.emlakjet.advert.event.AdvertUpdatedEvent;
+import com.emlakjet.advert.event.AdvertDeletedEvent;
+import com.emlakjet.advert.event.BigInteger;
+import com.emlakjet.advert.event.BigDecimal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -51,9 +53,20 @@ public interface AdvertMapper {
 
     AdvertResponse toAdvertResponse(Advert advert);
 
-    AdvertCreatedMessage toAdvertCreatedMessage(AdvertEntity advert);
+    AdvertCreatedEvent toAdvertCreatedMessage(AdvertEntity advert);
 
-    AdvertUpdatedMessage toAdvertUpdatedMessage(AdvertEntity advert);
+    AdvertUpdatedEvent toAdvertUpdatedMessage(AdvertEntity advert);
 
-    AdvertDeletedMessage toAdvertDeletedMessage(Long advertId);
+    AdvertDeletedEvent toAdvertDeletedMessage(Long advertId);
+
+    default java.math.BigDecimal toJavaBigDecimal(BigDecimal bigDecimal) {
+        return new java.math.BigDecimal(new java.math.BigInteger(bigDecimal.getIntVal().getStrVal()), bigDecimal.getScale());
+    }
+
+    default BigDecimal toProtoBigDecimal(java.math.BigDecimal bigDecimal) {
+        return BigDecimal.newBuilder()
+                .setIntVal(BigInteger.newBuilder().setStrVal(bigDecimal.toBigInteger().toString()).build())
+                .setScale(bigDecimal.scale())
+                .build();
+    }
 }
