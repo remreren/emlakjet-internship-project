@@ -15,7 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +43,7 @@ class AdvertRepositoryTest {
 
         // Given
         var indoorInfo = new IndoorInfoEntity(100, 80, "1+1", 10, 3);
-        var advert = new AdvertEntity(1L, 1L, "Title", "Description", BigDecimal.TEN, new LocationPointEntity(34D, 34D),
+        var advert = new AdvertEntity(1L, 1L, "Title", "Description", BigInteger.TEN, new LocationPointEntity(34D, 34D),
                                       TradeType.SALE, indoorInfo, ApprovalStatus.REQUESTED, AdvertStatus.NOT_PUBLISHED, new Date(), new Date());
 
         // When

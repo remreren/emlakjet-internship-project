@@ -6,14 +6,14 @@ import com.emlakjet.advert.model.LocationPoint;
 import com.emlakjet.commons.model.UseCase;
 import lombok.Builder;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Builder
 public record CreateAdvertUseCase(
         Long ownerId,
         String title,
         String description,
-        BigDecimal price,
+        BigInteger price,
         LocationPoint location,
         TradeType tradeType,
         IndoorInfo indoorInfo

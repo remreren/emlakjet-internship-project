@@ -4,14 +4,14 @@ import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 public record Advert(
         Long advertId,
         String title,
         String description,
-        BigDecimal price,
+        BigInteger price,
         LocationPoint location,
         TradeType tradeType,
         IndoorInfo indoorInfo,

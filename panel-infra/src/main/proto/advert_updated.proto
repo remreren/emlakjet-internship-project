@@ -3,11 +3,9 @@ syntax = "proto3";
 package com.emlakjet.advert.event;
 option java_multiple_files = true;
 
-import "big_decimal.proto";
-
 message AdvertUpdatedEvent {
   int64 advert_id = 1;
   string title = 2;
   string description = 3;
-  BigDecimal price = 4;
+  string price = 4;
 }

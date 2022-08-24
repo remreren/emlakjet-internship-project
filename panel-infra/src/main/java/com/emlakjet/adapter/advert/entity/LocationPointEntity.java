@@ -16,5 +16,5 @@ import java.util.Objects;
 @AllArgsConstructor
 public final class LocationPointEntity {
     private Double lat;
-    private Double lng;
+    private Double lon;
 }

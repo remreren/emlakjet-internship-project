@@ -13,8 +13,6 @@ import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.advert.event.AdvertCreatedEvent;
 import com.emlakjet.advert.event.AdvertUpdatedEvent;
 import com.emlakjet.advert.event.AdvertDeletedEvent;
-import com.emlakjet.advert.event.BigInteger;
-import com.emlakjet.advert.event.BigDecimal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -58,15 +56,4 @@ public interface AdvertMapper {
     AdvertUpdatedEvent toAdvertUpdatedMessage(AdvertEntity advert);
 
     AdvertDeletedEvent toAdvertDeletedMessage(Long advertId);
-
-    default java.math.BigDecimal toJavaBigDecimal(BigDecimal bigDecimal) {
-        return new java.math.BigDecimal(new java.math.BigInteger(bigDecimal.getIntVal().getStrVal()), bigDecimal.getScale());
-    }
-
-    default BigDecimal toProtoBigDecimal(java.math.BigDecimal bigDecimal) {
-        return BigDecimal.newBuilder()
-                .setIntVal(BigInteger.newBuilder().setStrVal(bigDecimal.toBigInteger().toString()).build())
-                .setScale(bigDecimal.scale())
-                .build();
-    }
 }
