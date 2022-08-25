@@ -42,6 +42,7 @@ public class AdvertPublishingAdapter implements AdvertPublishingPort {
                                      .setAdvertStatusUpdated(AdvertStatusUpdatedEvent.newBuilder()
                                                                                      .setAdvertId(advertUpdated.advertId())
                                                                                      .setAdvertStatus(advertUpdated.advertStatus().getSlug())
+                                                                                     .setApprovalStatus(advertUpdated.approvalStatus().getSlug())
                                                                                      .build())
                                      .build();
 

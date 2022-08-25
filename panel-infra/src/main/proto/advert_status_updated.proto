@@ -6,4 +6,5 @@ option java_multiple_files = true;
 message AdvertStatusUpdatedEvent {
   int64 advert_id = 1;
   string advert_status = 2;
+  string approval_status = 3;
 }
