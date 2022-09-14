@@ -2,11 +2,9 @@ package com.emlakjet.adapter.advert;
 
 import com.emlakjet.adapter.advert.repo.AdvertRepository;
 import com.emlakjet.advert.event.AdvertEvent;
-import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
-import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +22,7 @@ public class AdvertAdapter implements AdvertPort {
 
     private final KafkaTemplate<String, AdvertEvent> advertEventSender;
 
-    private static final String ADVERT_CREATED = "advert-events";
-
-    private static final String ADVERT_UPDATED = "advert-events";
-
-    private static final String ADVERT_DELETED = "advert-events";
+    private static final String ADVERT_EVENTS = "advert-events";
 
     private final AdvertRepository advertRepository;
 
@@ -49,20 +43,20 @@ public class AdvertAdapter implements AdvertPort {
                                      .setAdvertCreated(mapper.toAdvertCreatedMessage(createdAdvert))
                                      .build();
 
-        advertEventSender.send(ADVERT_CREATED, advertEvent);
+        advertEventSender.send(ADVERT_EVENTS, advertEvent);
 
         return mapper.toAdvert(createdAdvert);
     }
 
     @Override
-    public Advert updateAdvert(Advert advert) {;
+    public Advert updateAdvert(Advert advert) {
 
         var advertEvent = AdvertEvent.newBuilder()
                                      .setEventId(UUID.randomUUID().toString())
                                      .setAdvertUpdated(mapper.toAdvertUpdatedMessage(advert))
                                      .build();
 
-        advertEventSender.send(ADVERT_UPDATED, advertEvent);
+        advertEventSender.send(ADVERT_EVENTS, advertEvent);
 
         return advert;
     }
@@ -77,7 +71,7 @@ public class AdvertAdapter implements AdvertPort {
                                      .setAdvertDeleted(mapper.toAdvertDeletedMessage(advertId))
                                      .build();
 
-        advertEventSender.send(ADVERT_DELETED, advertEvent);
+        advertEventSender.send(ADVERT_EVENTS, advertEvent);
 
     }
 

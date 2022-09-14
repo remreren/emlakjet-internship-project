@@ -16,10 +16,10 @@ class DeleteAdvertUseCaseHandlerTest {
     void should_handle_delete_advert() {
 
         // Given
-        // DoNothing
+        var deleteAdvertUseCase = new DeleteAdvertUseCase(1L);
 
         // When
-        useCaseHandler.handle(1L);
+        useCaseHandler.handle(deleteAdvertUseCase);
 
         // Then
         assertNotNull(useCaseHandler);

@@ -10,19 +10,19 @@ import lombok.RequiredArgsConstructor;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class DeleteAdvertUseCaseHandler implements VoidUseCaseHandler<Long> {
+public class DeleteAdvertUseCaseHandler implements VoidUseCaseHandler<DeleteAdvertUseCase> {
 
     private final AdvertPort advertPort;
 
     @Override
-    public void handle(Long advertId) {
+    public void handle(DeleteAdvertUseCase deleteAdvertUseCase) {
 
-        var advert = advertPort.getAdvertById(advertId).orElseThrow(AdvertNotFoundException::new);
+        var advert = advertPort.getAdvertById(deleteAdvertUseCase.advertId()).orElseThrow(AdvertNotFoundException::new);
 
         if (advert.advertStatus() == null || advert.advertStatus().equals(AdvertStatus.PUBLISHED))
             throw new AdvertStatusException();
 
-        advertPort.deleteAdvert(advertId);
+        advertPort.deleteAdvert(deleteAdvertUseCase.advertId());
 
     }
 }

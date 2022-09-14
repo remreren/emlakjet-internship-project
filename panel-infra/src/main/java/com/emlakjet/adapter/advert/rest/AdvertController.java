@@ -5,6 +5,7 @@ import com.emlakjet.adapter.advert.rest.dto.AdvertRequest;
 import com.emlakjet.advert.dto.AdvertResponse;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.usecase.CreateAdvertUseCase;
+import com.emlakjet.advert.usecase.DeleteAdvertUseCase;
 import com.emlakjet.advert.usecase.UpdateAdvertUseCase;
 import com.emlakjet.commons.usecase.UseCaseHandler;
 import com.emlakjet.commons.usecase.VoidUseCaseHandler;
@@ -21,7 +22,7 @@ public class AdvertController {
 
     private final UseCaseHandler<Advert, UpdateAdvertUseCase> updateAdvertUseCaseHandler;
 
-    private final VoidUseCaseHandler<Long> deleteAdvertUseCaseHandler;
+    private final VoidUseCaseHandler<DeleteAdvertUseCase> deleteAdvertUseCaseHandler;
 
     private final AdvertMapper mapper;
 
@@ -51,7 +52,7 @@ public class AdvertController {
     @DeleteMapping("/{advertId}/")
     public ResponseEntity<Boolean> deleteAdvert(@PathVariable("advertId") Long advertId) {
 
-        deleteAdvertUseCaseHandler.handle(advertId);
+        deleteAdvertUseCaseHandler.handle(new DeleteAdvertUseCase(advertId));
 
         return ResponseEntity.ok(Boolean.TRUE);
 
