@@ -55,5 +55,7 @@ public interface AdvertMapper {
 
     AdvertUpdatedEvent toAdvertUpdatedMessage(AdvertEntity advert);
 
+    AdvertUpdatedEvent toAdvertUpdatedMessage(Advert advert);
+
     AdvertDeletedEvent toAdvertDeletedMessage(Long advertId);
 }

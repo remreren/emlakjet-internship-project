@@ -55,20 +55,16 @@ public class AdvertAdapter implements AdvertPort {
     }
 
     @Override
-    public Advert updateAdvert(UpdateAdvertUseCase advert) {
-
-        var updatedAdvert = advertRepository.findById(advert.advertId())
-                .map(oldEntity -> mapper.toAdvertEntity(oldEntity, advert))
-                .orElseThrow(AdvertNotFoundException::new);
+    public Advert updateAdvert(Advert advert) {;
 
         var advertEvent = AdvertEvent.newBuilder()
                                      .setEventId(UUID.randomUUID().toString())
-                                     .setAdvertUpdated(mapper.toAdvertUpdatedMessage(updatedAdvert))
+                                     .setAdvertUpdated(mapper.toAdvertUpdatedMessage(advert))
                                      .build();
 
         advertEventSender.send(ADVERT_UPDATED, advertEvent);
 
-        return mapper.toAdvert(updatedAdvert);
+        return advert;
     }
 
     @Override

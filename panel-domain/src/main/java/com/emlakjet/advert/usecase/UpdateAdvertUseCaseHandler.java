@@ -18,12 +18,18 @@ public class UpdateAdvertUseCaseHandler implements UseCaseHandler<Advert, Update
     @Override
     public Advert handle(UpdateAdvertUseCase useCase) {
 
-        var advert = advertPort.getAdvertById(useCase.advertId()).orElseThrow(AdvertNotFoundException::new);
+        var advert = advertPort.getAdvertById(useCase.advertId())
+                .map(adv -> updateAdvert(adv, useCase))
+                .orElseThrow(AdvertNotFoundException::new);
 
         if (advert.advertStatus() == null || advert.advertStatus().equals(AdvertStatus.PUBLISHED))
             throw new AdvertStatusException();
 
-        return advertPort.updateAdvert(useCase);
+        return advertPort.updateAdvert(advert);
 
+    }
+
+    private Advert updateAdvert(Advert advert, UpdateAdvertUseCase updated) {
+        return new Advert(advert.advertId(), updated.title(), updated.description(), updated.price(), updated.location(), updated.tradeType(), updated.indoorInfo(), advert.approvalStatus(), advert.advertStatus(), null, null);
     }
 }

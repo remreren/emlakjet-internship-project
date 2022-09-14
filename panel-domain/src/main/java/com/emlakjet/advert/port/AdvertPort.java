@@ -10,7 +10,7 @@ public interface AdvertPort {
 
     Advert createAdvert(CreateAdvertUseCase advert);
 
-    Advert updateAdvert(UpdateAdvertUseCase advert);
+    Advert updateAdvert(Advert advert);
 
     void deleteAdvert(Long advertId);
 
