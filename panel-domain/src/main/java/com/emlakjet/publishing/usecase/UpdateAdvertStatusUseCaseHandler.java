@@ -3,6 +3,7 @@ package com.emlakjet.publishing.usecase;
 import com.emlakjet.advert.exception.AdvertApprovalStatusException;
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
+import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.commons.DomainComponent;
@@ -16,6 +17,8 @@ public class UpdateAdvertStatusUseCaseHandler implements UseCaseHandler<Advert, 
 
     private final AdvertPort advertPort;
 
+    private final AdvertEventPort advertEventPort;
+
     private final AdvertPublishingPort advertPublishingPort;
 
     @Override
@@ -28,7 +31,11 @@ public class UpdateAdvertStatusUseCaseHandler implements UseCaseHandler<Advert, 
                 || advert.approvalStatus().equals(ApprovalStatus.REQUESTED))
             throw new AdvertApprovalStatusException(advert.approvalStatus());
 
-        return advertPublishingPort.updateAdvertStatus(useCase);
+        var updatedAdvert = advertPublishingPort.updateAdvertStatus(advert.toBuilder().advertStatus(useCase.status()).build());
+
+        advertEventPort.advertStatusUpdated(useCase.advertId(), useCase.status(), updatedAdvert.approvalStatus());
+
+        return updatedAdvert;
 
     }
 }

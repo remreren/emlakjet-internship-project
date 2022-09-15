@@ -1,6 +1,7 @@
 package com.emlakjet.advert.port;
 
 import com.emlakjet.advert.model.Advert;
+import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 
 public class FakeAdvertEventPort implements AdvertEventPort {
@@ -21,7 +22,7 @@ public class FakeAdvertEventPort implements AdvertEventPort {
     }
 
     @Override
-    public void advertStatusUpdated(Long advertId, AdvertStatus status) {
+    public void advertStatusUpdated(Long advertId, AdvertStatus advertStatus, ApprovalStatus approvalStatus) {
         // status updated
     }
 }

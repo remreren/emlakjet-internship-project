@@ -1,6 +1,7 @@
 package com.emlakjet.advert.port;
 
 import com.emlakjet.advert.model.Advert;
+import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 
 public interface AdvertEventPort {
@@ -11,5 +12,5 @@ public interface AdvertEventPort {
 
     void advertDeleted(Long advertId);
 
-    void advertStatusUpdated(Long advertId, AdvertStatus status);
+    void advertStatusUpdated(Long advertId, AdvertStatus advertStatus, ApprovalStatus approvalStatus);
 }

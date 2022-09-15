@@ -11,17 +11,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigInteger;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class AdvertAdapterTest {
 
     private final AdvertRepository advertRepository = Mockito.mock(AdvertRepository.class);
@@ -77,4 +78,20 @@ class AdvertAdapterTest {
         verify(advertRepository, times(1)).save(createdAdvertEntity);
 
     }
+
+    @Test
+    void should_delete_advert() {
+
+        // Given
+        var advertId = 45345L;
+        doNothing().when(advertRepository).deleteById(advertId);
+
+        // When
+        advertAdapter.deleteAdvert(advertId);
+
+        // Then
+        verify(advertRepository, times(1)).deleteById(advertId);
+
+    }
+
 }

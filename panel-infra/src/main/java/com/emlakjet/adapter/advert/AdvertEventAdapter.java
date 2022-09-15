@@ -1,8 +1,10 @@
 package com.emlakjet.adapter.advert;
 
 import com.emlakjet.advert.event.AdvertEvent;
+import com.emlakjet.advert.event.AdvertStatusUpdatedEvent;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertEventPort;
+import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -55,7 +57,18 @@ public class AdvertEventAdapter implements AdvertEventPort {
     }
 
     @Override
-    public void advertStatusUpdated(Long advertId, AdvertStatus status) {
+    public void advertStatusUpdated(Long advertId, AdvertStatus advertStatus, ApprovalStatus approvalStatus) {
+
+        var advertStatusUpdatedEvent = AdvertEvent.newBuilder()
+                                     .setEventId(UUID.randomUUID().toString())
+                                     .setAdvertStatusUpdated(AdvertStatusUpdatedEvent.newBuilder()
+                                                                                     .setAdvertId(advertId)
+                                                                                     .setAdvertStatus(advertStatus.getSlug())
+                                                                                     .setApprovalStatus(approvalStatus.getSlug())
+                                                                                     .build())
+                                     .build();
+
+        advertEventSender.send(ADVERT_EVENTS, advertStatusUpdatedEvent);
 
     }
 }
