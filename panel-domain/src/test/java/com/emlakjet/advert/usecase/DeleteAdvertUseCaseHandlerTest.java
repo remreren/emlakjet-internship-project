@@ -1,6 +1,8 @@
 package com.emlakjet.advert.usecase;
 
+import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
+import com.emlakjet.advert.port.FakeAdvertEventPort;
 import com.emlakjet.advert.port.FakeAdvertPort;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class DeleteAdvertUseCaseHandlerTest {
 
     private final AdvertPort advertPort = new FakeAdvertPort();
-    private final DeleteAdvertUseCaseHandler useCaseHandler = new DeleteAdvertUseCaseHandler(advertPort);
+
+    private final AdvertEventPort advertEventPort = new FakeAdvertEventPort();
+
+    private final DeleteAdvertUseCaseHandler useCaseHandler = new DeleteAdvertUseCaseHandler(advertPort, advertEventPort);
 
 
     @Test

@@ -53,6 +53,8 @@ public interface AdvertMapper {
 
     AdvertCreatedEvent toAdvertCreatedMessage(AdvertEntity advert);
 
+    AdvertCreatedEvent toAdvertCreatedMessage(Advert advert);
+
     AdvertUpdatedEvent toAdvertUpdatedMessage(AdvertEntity advert);
 
     AdvertUpdatedEvent toAdvertUpdatedMessage(Advert advert);

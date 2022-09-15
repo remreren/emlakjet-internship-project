@@ -1,6 +1,7 @@
 package com.emlakjet.advert.usecase;
 
 import com.emlakjet.advert.exception.AdvertNotFoundException;
+import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.commons.DomainComponent;
 import com.emlakjet.commons.usecase.VoidUseCaseHandler;
@@ -14,6 +15,8 @@ public class DeleteAdvertUseCaseHandler implements VoidUseCaseHandler<DeleteAdve
 
     private final AdvertPort advertPort;
 
+    private final AdvertEventPort advertEventPort;
+
     @Override
     public void handle(DeleteAdvertUseCase deleteAdvertUseCase) {
 
@@ -23,6 +26,8 @@ public class DeleteAdvertUseCaseHandler implements VoidUseCaseHandler<DeleteAdve
             throw new AdvertStatusException();
 
         advertPort.deleteAdvert(deleteAdvertUseCase.advertId());
+
+        advertEventPort.advertDeleted(deleteAdvertUseCase.advertId());
 
     }
 }

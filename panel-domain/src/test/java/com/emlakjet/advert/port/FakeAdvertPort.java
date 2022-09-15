@@ -4,7 +4,6 @@ import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.model.IndoorInfo;
 import com.emlakjet.advert.model.LocationPoint;
-import com.emlakjet.advert.usecase.CreateAdvertUseCase;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 
@@ -15,19 +14,8 @@ import java.util.Optional;
 public class FakeAdvertPort implements AdvertPort {
 
     @Override
-    public Advert createAdvert(CreateAdvertUseCase advert) {
-        return new Advert(
-                1L,
-                advert.title(),
-                advert.description(),
-                advert.price(),
-                advert.location(),
-                advert.tradeType(),
-                advert.indoorInfo(),
-                ApprovalStatus.REQUESTED,
-                AdvertStatus.HANG,
-                new Date(),
-                new Date());
+    public Advert createAdvert(Advert advert) {
+        return advert.toBuilder().advertId(1L).createdAt(new Date()).updatedAt(new Date()).build();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.emlakjet.advert.usecase;
 
 import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
+import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
 import com.emlakjet.commons.DomainComponent;
 import com.emlakjet.commons.usecase.UseCaseHandler;
@@ -15,6 +16,8 @@ public class UpdateAdvertUseCaseHandler implements UseCaseHandler<Advert, Update
 
     private final AdvertPort advertPort;
 
+    private final AdvertEventPort advertEventPort;
+
     @Override
     public Advert handle(UpdateAdvertUseCase useCase) {
 
@@ -25,7 +28,11 @@ public class UpdateAdvertUseCaseHandler implements UseCaseHandler<Advert, Update
         if (advert.advertStatus() == null || advert.advertStatus().equals(AdvertStatus.PUBLISHED))
             throw new AdvertStatusException();
 
-        return advertPort.updateAdvert(advert);
+        var updatedAdvert = advertPort.updateAdvert(advert);
+
+        advertEventPort.advertUpdated(updatedAdvert);
+
+        return updatedAdvert;
 
     }
 

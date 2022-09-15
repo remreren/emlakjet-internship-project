@@ -3,7 +3,9 @@ package com.emlakjet.advert.usecase;
 import com.emlakjet.advert.enums.TradeType;
 import com.emlakjet.advert.model.IndoorInfo;
 import com.emlakjet.advert.model.LocationPoint;
+import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
+import com.emlakjet.advert.port.FakeAdvertEventPort;
 import com.emlakjet.advert.port.FakeAdvertPort;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class UpdateAdvertUseCaseHandlerTest {
 
     private final AdvertPort advertPort = new FakeAdvertPort();
-    private final UpdateAdvertUseCaseHandler useCaseHandler = new UpdateAdvertUseCaseHandler(advertPort);
+
+    private final AdvertEventPort advertEventPort = new FakeAdvertEventPort();
+
+    private final UpdateAdvertUseCaseHandler useCaseHandler = new UpdateAdvertUseCaseHandler(advertPort, advertEventPort);
 
     @Test
     void should_handle_update_advert() {

@@ -14,6 +14,7 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @Entity(name = "advert")
 @Table(name = "advert")
+@EqualsAndHashCode
 @Getter
 @Setter
 @ToString
