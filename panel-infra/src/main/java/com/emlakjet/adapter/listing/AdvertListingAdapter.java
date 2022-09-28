@@ -51,13 +51,13 @@ public class AdvertListingAdapter implements AdvertListingPort {
         query.where(cb.and(test));
 
         var result = entityManager.createQuery(query)
-                .setFirstResult(starting(advertListingUseCase.page(), advertListingUseCase.pageSize()))
+                .setFirstResult(startFrom(advertListingUseCase.page() - 1, advertListingUseCase.pageSize()))
                 .setMaxResults(advertListingUseCase.pageSize());
 
         return result.getResultList().stream().map(mapper::toAdvert).toList();
     }
 
-    private Integer starting(Integer page, Integer pageSize) {
+    private Integer startFrom(Integer page, Integer pageSize) {
         return page * pageSize;
     }
 }

@@ -4,6 +4,7 @@ import com.emlakjet.advert.exception.AdvertNotFoundException;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.advert.port.AdvertPort;
+import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.commons.DomainComponent;
 import com.emlakjet.commons.usecase.UseCaseHandler;
 import com.emlakjet.publishing.enums.AdvertStatus;
@@ -37,6 +38,15 @@ public class UpdateAdvertUseCaseHandler implements UseCaseHandler<Advert, Update
     }
 
     private Advert updateAdvert(Advert advert, UpdateAdvertUseCase updated) {
-        return new Advert(advert.advertId(), updated.title(), updated.description(), updated.price(), updated.location(), updated.tradeType(), updated.indoorInfo(), advert.approvalStatus(), advert.advertStatus(), null, null);
+        return advert.toBuilder()
+                     .title(updated.title())
+                     .description(updated.description())
+                     .price(updated.price())
+                     .location(updated.location())
+                     .tradeType(updated.tradeType())
+                     .indoorInfo(updated.indoorInfo())
+                     .approvalStatus(ApprovalStatus.REQUESTED)
+                     .advertStatus(AdvertStatus.NOT_PUBLISHED)
+                     .build();
     }
 }

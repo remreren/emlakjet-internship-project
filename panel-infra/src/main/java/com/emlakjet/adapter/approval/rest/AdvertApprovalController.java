@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/approval/advert")
 public class AdvertApprovalController {
 
+    // TODO: iki farklı status için iki farklı usecase handler kullanılabilir.
     private final UseCaseHandler<Advert, AdvertApprovalUseCase> advertApprovalUseCaseHandler;
 
     private final AdvertMapper mapper;
@@ -31,6 +32,7 @@ public class AdvertApprovalController {
 
     }
 
+    // TODO: we can add reject reason here
     @PostMapping("/{advertId}/reject")
     public ResponseEntity<AdvertResponse> rejectAdvert(@PathVariable("advertId") Long advertId) {
 

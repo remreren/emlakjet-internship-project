@@ -13,4 +13,8 @@ public interface AdvertEventPort {
     void advertDeleted(Long advertId);
 
     void advertStatusUpdated(Long advertId, AdvertStatus advertStatus, ApprovalStatus approvalStatus);
+
+    void advertApproved(Long advertId);
+
+    void advertUnPublished(Long advertId);
 }

@@ -1,7 +1,9 @@
 package com.emlakjet.adapter.advert;
 
+import com.emlakjet.advert.event.AdvertApprovedEvent;
 import com.emlakjet.advert.event.AdvertEvent;
 import com.emlakjet.advert.event.AdvertStatusUpdatedEvent;
+import com.emlakjet.advert.event.AdvertUnPublishedEvent;
 import com.emlakjet.advert.model.Advert;
 import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.approval.enums.ApprovalStatus;
@@ -69,6 +71,34 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                      .build();
 
         advertEventSender.send(ADVERT_EVENTS, advertStatusUpdatedEvent);
+
+    }
+
+    @Override
+    public void advertApproved(Long advertId) {
+
+        var advertApprovedEvent = AdvertEvent.newBuilder()
+                                             .setEventId(UUID.randomUUID().toString())
+                                             .setAdvertApproved(AdvertApprovedEvent.newBuilder()
+                                                                                   .setAdvertId(advertId)
+                                                                                   .build())
+                                             .build();
+
+        advertEventSender.send(ADVERT_EVENTS, advertApprovedEvent);
+
+    }
+
+    @Override
+    public void advertUnPublished(Long advertId) {
+
+        var advertUnPublishedEvent = AdvertEvent.newBuilder()
+                                             .setEventId(UUID.randomUUID().toString())
+                                             .setAdvertUnpublished(AdvertUnPublishedEvent.newBuilder()
+                                                                                      .setAdvertId(advertId)
+                                                                                      .build())
+                                             .build();
+
+        advertEventSender.send(ADVERT_EVENTS, advertUnPublishedEvent);
 
     }
 }

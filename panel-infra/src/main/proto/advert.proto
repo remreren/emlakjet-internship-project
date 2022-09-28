@@ -9,6 +9,7 @@ import "advert_updated.proto";
 import "advert_deleted.proto";
 import "advert_status_updated.proto";
 import "advert_approved.proto";
+import "advert_unpublished.proto";
 
 message AdvertEvent {
   string event_id = 1;
@@ -20,5 +21,6 @@ message AdvertEvent {
     AdvertDeletedEvent advert_deleted = 5;
     AdvertStatusUpdatedEvent advert_status_updated = 6;
     AdvertApprovedEvent advert_approved = 7;
+    AdvertUnPublishedEvent advert_unpublished = 8;
   }
 }

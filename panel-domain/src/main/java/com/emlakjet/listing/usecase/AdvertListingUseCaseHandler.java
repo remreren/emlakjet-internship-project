@@ -16,7 +16,7 @@ public class AdvertListingUseCaseHandler implements UseCaseHandler<List<Advert>,
 
     private static final Integer DEFAULT_PAGE_SIZE = 30;
 
-    private static final Integer DEFAULT_PAGE = 0;
+    private static final Integer DEFAULT_PAGE = 1;
 
     private final AdvertListingPort advertListingPort;
 

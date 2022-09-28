@@ -25,4 +25,14 @@ public class FakeAdvertEventPort implements AdvertEventPort {
     public void advertStatusUpdated(Long advertId, AdvertStatus advertStatus, ApprovalStatus approvalStatus) {
         // status updated
     }
+
+    @Override
+    public void advertApproved(Long advertId) {
+
+    }
+
+    @Override
+    public void advertUnPublished(Long advertId) {
+
+    }
 }
