@@ -12,9 +12,9 @@ import org.springframework.kafka.annotation.EnableKafkaStreams;
 @EnableKafkaStreams
 @SpringBootApplication
 @ComponentScan(includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = {DomainComponent.class})})
-public class AdvertConsumerApplication {
+public class SearchConsumerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AdvertConsumerApplication.class, args);
+        SpringApplication.run(SearchConsumerApplication.class, args);
     }
 }

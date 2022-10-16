@@ -1,6 +1,5 @@
 package com.emlakjet.adapter.listener;
 
-import com.emlakjet.advert.enums.TradeType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
