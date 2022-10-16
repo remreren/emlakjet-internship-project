@@ -1,0 +1,57 @@
+{
+  "aliases": {},
+  "settings": {
+    "index": {
+      "number_of_shards": "1",
+      "number_of_replicas": "0"
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "advertId": {
+        "type": "long"
+      },
+      "ownerId": {
+        "type": "long"
+      },
+      "title": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "keyword"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "price": {
+        "type": "string"
+      },
+      "indoorInfo": {
+        "properties": {
+          "squareMeter": {
+            "type": "integer"
+          },
+          "netSquareMeter": {
+            "type": "integer"
+          },
+          "roomCount": {
+            "type": "keyword"
+          },
+          "floorCount": {
+            "type": "integer"
+          },
+          "floorNumber": {
+            "type": "integer"
+          }
+        }
+      },
+      "createdAt": {
+        "type": "date"
+      },
+      "updatedAt": {
+        "type": "date"
+      }
+    }
+  }
+}

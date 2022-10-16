@@ -1,0 +1,51 @@
+server:
+  port: 9091
+
+spring:
+  application:
+    name: advert-consumer
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: test
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  kafka:
+    properties:
+      schema.registry.url: "http://localhost:8081"
+      auto.register.schemas: true
+    streams:
+      properties:
+        schema.registry.url: "http://localhost:8081"
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer
+      group-id: advert-consumer
+      client-id: ${spring.application.name}
+      properties:
+        schema.registry.url: "http://localhost:8081"
+        auto.register.schemas: true
+
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+elasticsearch:
+  schema: http
+  host: localhost
+  port: 9200
