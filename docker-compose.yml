@@ -1,0 +1,130 @@
+version: '3.7'
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elastic/elasticsearch:8.3.3
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    env_file:
+      - elk/config/elasticsearch.env
+    volumes:
+      - ./elk/data:/usr/share/elasticsearch/data
+    networks:
+      - elk
+
+  kibana:
+    container_name: kibana
+    image: elastic/kibana:8.3.3
+    ports:
+      - "5601:5601"
+    env_file:
+      - elk/config/kibana.env
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  pg_database:
+    container_name: pg_database
+    image: postgres
+    restart: always
+    env_file:
+      - postgresql/config/postgres.env
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  pg_admin:
+    container_name: pg_admin
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - postgresql/config/postgres_ui.env
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+
+  panel_api:
+    container_name: panel_api
+    build: ./panel-api/
+    env_file:
+      - ./panel-api/panel-api.env
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka
+      - pg_database
+      - elasticsearch
+    networks:
+      - postgres
+      - kafka-net
+
+  search_consumer:
+    container_name: search_consumer
+    build: ./search-consumer/
+    env_file:
+      - ./search-consumer/search-consumer.env
+    ports:
+      - "9091:9090"
+    depends_on:
+      - kafka
+      - pg_database
+      - elasticsearch
+    networks:
+      - postgres
+      - elk
+      - kafka-net
+
+  zoo:
+    image: confluentinc/cp-zookeeper:7.2.1
+    hostname: zoo
+    container_name: zoo
+    ports:
+      - "2181:2181"
+    env_file:
+      - ./kafka/config/zoo.env
+    networks:
+      - kafka-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+      - "9999:9999"
+    env_file:
+      - ./kafka/config/kafka.env
+    depends_on:
+      - zoo
+    networks:
+      - kafka-net
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.2.1
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - zoo
+      - kafka
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./kafka/config/schema-registry.env
+    networks:
+      - kafka-net
+
+networks:
+  elk:
+    driver: bridge
+  postgres:
+    driver: bridge
+  kafka-net:
+    driver: bridge

@@ -9,6 +9,7 @@ import com.emlakjet.advert.port.AdvertEventPort;
 import com.emlakjet.approval.enums.ApprovalStatus;
 import com.emlakjet.publishing.enums.AdvertStatus;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                      .setAdvertCreated(mapper.toAdvertCreatedMessage(advert))
                                      .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertCreatedEvent);
+        send(ADVERT_EVENTS, advertCreatedEvent);
 
     }
 
@@ -44,7 +45,7 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                      .setAdvertUpdated(mapper.toAdvertUpdatedMessage(advert))
                                      .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertUpdatedEvent);
+        send(ADVERT_EVENTS, advertUpdatedEvent);
 
     }
 
@@ -56,7 +57,7 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                      .setAdvertDeleted(mapper.toAdvertDeletedMessage(advertId))
                                      .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertDeletedEvent);
+        send(ADVERT_EVENTS, advertDeletedEvent);
 
     }
 
@@ -72,7 +73,7 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                                                                      .build())
                                      .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertStatusUpdatedEvent);
+        send(ADVERT_EVENTS, advertStatusUpdatedEvent);
 
     }
 
@@ -86,7 +87,7 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                                                                    .build())
                                              .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertApprovedEvent);
+        send(ADVERT_EVENTS, advertApprovedEvent);
 
     }
 
@@ -100,7 +101,11 @@ public class AdvertEventAdapter implements AdvertEventPort {
                                                                                       .build())
                                              .build();
 
-        advertEventSender.send(ADVERT_EVENTS, advertUnPublishedEvent);
+        send(ADVERT_EVENTS, advertUnPublishedEvent);
 
+    }
+
+    private void send(String topic, AdvertEvent created) {
+        advertEventSender.send(new ProducerRecord<>(topic, created));
     }
 }

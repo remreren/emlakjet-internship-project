@@ -1,10 +1,9 @@
 package com.emlakjet.configuration;
 
 import com.emlakjet.advert.event.AdvertEvent;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.Serializer;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,26 +12,17 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
-import java.util.List;
-import java.util.Map;
-
 @Setter
 @Configuration
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "spring.kafka")
 public class KafkaConfiguration {
 
-    private List<String> bootstrapServers;
-
-    private KafkaProducerConfiguration producer;
+    private final KafkaProperties properties;
 
     @Bean
     public ProducerFactory<String, AdvertEvent> advertEventProducerFactory() {
-        Map<String, Object> producerConfig = Map.of(
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, producer.keySerializer(),
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, producer.valueSerializer(),
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-                "schema.registry.url", "http://localhost:8081");
-        return new DefaultKafkaProducerFactory<>(producerConfig);
+        return new DefaultKafkaProducerFactory<>(properties.buildProducerProperties());
     }
 
     @Bean
@@ -42,14 +32,6 @@ public class KafkaConfiguration {
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        return new KafkaAdmin(configs);
-    }
-
-    public record KafkaProducerConfiguration(
-            Class<Serializer<?>> keySerializer,
-            Class<Serializer<?>> valueSerializer
-    ) {
-
+        return new KafkaAdmin(properties.buildAdminProperties());
     }
 }

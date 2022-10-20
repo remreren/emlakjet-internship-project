@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Embeddable;
 
-// @Table(name = "location") // TODO: this could be removed if checked and assured that this is working.
 @Embeddable
 @Getter
 @Setter
