@@ -40,8 +40,6 @@ Then start development, run everything locally without creating images.
 mvn clean test
 ```
 
-# Deployment
-
 # Built With
 * Java 17
 * Spring Boot
